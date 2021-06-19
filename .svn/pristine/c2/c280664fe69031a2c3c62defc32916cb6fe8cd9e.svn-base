@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+using DAO;
+
+namespace BLL
+{
+    public class UnitManager : IMasterActions<Unit>
+    {
+        public DataTable CRUD(Unit unit, string flag)
+        {
+            
+            var cmd = DataAccess.CreateCommand();
+            cmd.CommandText = "setup.usp_Unit";
+            cmd.Parameters.AddWithValue("@UnitID", unit.UnitID);
+            cmd.Parameters.AddWithValue("@UnitName", unit.UnitName);
+            cmd.Parameters.AddWithValue("@Description", unit.Description);
+            cmd.Parameters.AddWithValue("@flag", flag);
+            return DataAccess.ExecuteReaderCommand(cmd);
+        }
+
+
+
+
+        public DataTable SelectById(string UnitID)
+        {
+            DataTable tbl = new DataTable();
+
+            return tbl;
+        }
+
+    }
+}

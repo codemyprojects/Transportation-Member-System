@@ -1,0 +1,441 @@
+/* here you can put your own css to customize and override the theme */
+
+.form-group label.error
+{
+    color: #b94a48;
+    font-size: 13px;
+}
+
+.float-go-top {
+	position: fixed;
+	right: 5px;
+	bottom: 5px;
+	cursor: pointer;
+	display: block;
+	font-size: 16px;
+	padding: 0 6px;
+	text-decoration: none;
+	background-color: #4F4F4F;
+	opacity: 0.2;
+	filter: alpha(opacity=20);
+}
+.float-go-top:hover {
+	background-color: #4A4A4A;
+	opacity: 1;
+	filter: alpha(opacity=100);
+}
+.float-go-top i {
+    color: #8A8A8A;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+.note {
+	position: relative;
+}
+.note .close-note {
+	cursor: pointer;
+	font-size: 16px;
+	height: 20px;
+	line-height: 17px;
+	position: absolute;
+	right: 5px;
+	text-align: center;
+	top: 5px;
+	width: 20px;
+}
+.flip-scroll, .table-responsive 
+{
+    overflow: auto;
+}
+.student_details table tbody tr:first-child th, .student_details table tbody tr:first-child td
+{
+    border-top: 0px none;
+}
+.student_details table tbody tr th
+{
+    text-align: right;
+}
+.student_details table tbody tr th, .student_details table tbody tr td
+{
+    width: 50%;
+}
+.modify a
+{
+    Cursor:pointer !important;
+    
+    }
+.loading 
+{
+    background-image: url("/assets/img/ajax-loading.gif");
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.modal-body 
+{
+    min-height: 100px;
+}
+.modal-body table 
+{
+    background-color: #FFFFFF;
+}
+.table td
+{
+    font-size: 13px;
+}
+.no-pad 
+{
+    padding: 0px !important;
+}
+.no-left-pad 
+{
+    padding-left: 0px !important;
+}
+.no-margin 
+{
+    margin: 0px !important;
+}
+.header .navbar-brand 
+{
+    padding: 7px;
+}
+.header .navbar-brand img 
+{
+    display: inline-block;
+    margin-left: 0px;
+    vertical-align: 0px;
+    margin-right: 5px;
+}
+.navbar-inverse .navbar-brand {
+  color: #ffffff;
+  font-weight: bold;
+}
+.footer .footer-inner
+{
+    text-align: center;
+    float: none;
+    display: block;
+}
+.dashboard_boxes .portlet-title
+{
+    height: 35px;
+    line-height: 35px;
+    overflow: hidden;
+}
+.dashboard_boxes .portlet-title .caption
+{
+    width: 1000px;
+    margin-bottom: 0px;
+}
+.dashboard_boxes .portlet-title .caption a
+{
+    display: block;
+    text-decoration: none;
+    color: #FFFFFF;
+}
+.dashboard_boxes .portlet.box 
+{
+    border: 0px none;
+}
+.dashboard_boxes .portlet.box > .portlet-body 
+{
+    height: 150px;
+    background-color: #FFFFFF;
+}
+.dashboard_boxes .portlet-body i
+{
+    display: block;
+}
+.dashboard_boxes .portlet-image
+{
+    height: 150px;
+    background-color: transparent;
+    position: relative;
+}
+.dashboard_boxes .portlet-image img
+{
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    max-height: 80%;
+    max-width: 80%;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.dashboard_boxes .flip_card
+{
+    width: 100%;
+    height: 100%;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    border: 1px solid #b4cef8;
+    cursor: pointer;
+}
+.dashboard_boxes .front-wrap
+{
+    z-index: 1;
+}
+.dashboard_boxes .back-wrap
+{
+    z-index: 2;
+}
+.dashboard_boxes .front
+{
+    background-color: #FFFFFF;
+}
+.dashboard_boxes .back
+{
+    background-color: #EEE;
+    padding: 5px 0px 0px 5px;
+}
+.page-breadcrumb .btn-group .btn 
+{
+    padding-right: 7px !important;
+    padding-top: 7px !important;
+}
+.page-breadcrumb .btn-group a.btn 
+{
+    color: #FFFFFF !important;
+    margin-right: 3px;
+}
+.so_panel .panel-title .fa 
+{
+    line-height: 20px;
+    font-size: 20px;
+    color: #000;
+}
+.so_panel .panel-title a 
+{
+    text-decoration: none;
+    color: #000;
+    background-color: #F9F9F9;
+    display: block;
+    float: right;
+    padding: 5px 15px;
+    border: 1px solid #CCC;
+    border-top: 0px;
+    margin-top: -1px;
+}
+.so_panel #so_options 
+{
+    color: #333;
+    background-color: #F9F9F9;
+    border: 1px solid #CCC;
+    border-top: 0px;
+}
+.so_panel #so_options label 
+{
+    cursor: pointer;
+    margin-right: 20px;
+    -webkit-user-select: none; /* Chrome/Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+}
+#screen_options 
+{
+    margin: -26px 0px 26px 0px;
+}
+.dashboard_head_menu 
+{
+    padding-top: 5px;
+}
+.dashboard_head_menu .menu_caption 
+{
+    display: table;
+}
+.dashboard_head_menu > div 
+{
+    margin-top: 15px;
+}
+.dashboard_head_menu .menu_icon 
+{
+    display: table-cell;
+    font-size: 30px;
+    height: 40px;
+    padding-right: 10px;
+    text-align: center;
+    vertical-align: middle;
+    width: 40px;
+}
+.dashboard_head_menu .menu_info 
+{
+    display: table-cell;
+    font-size: 16px;
+}
+.dashboard_head_menu .menu_info i 
+{
+    display: block;
+    font-size: 10px;
+}
+
+@media (max-width: 480px) 
+{
+    
+    .dashboard_head_menu > div 
+    {
+        width: 100%;
+    }
+    
+}
+
+@media (max-width: 800px) 
+{
+    
+    table.students_table thead th, table.students_table tbody td 
+    {
+        height: 45px;
+    }
+    
+}
+.form-control.input_readonly 
+{
+    background-color: #ffffff !important;
+}
+.table_div 
+{
+    display: table;
+    width: 100%;
+}
+.tc_div 
+{
+    display: table-cell;
+}
+
+#event-modal .modal-title 
+{
+    font-weight: 600 !important;
+}
+#event-modal .modal-body {
+    max-height: 400px;
+    overflow: auto;
+}
+.modal-content .block_event {
+    border: 1px solid #CCCCCC;
+    padding: 15px;
+    margin-top: 15px;
+}
+.modal-content .block_event p 
+{
+    margin-bottom: 5px;
+}
+.modal-content .block_event p:last-child 
+{
+    margin-bottom: 0px;
+}
+
+.view_time_table .filter_data {
+    margin-bottom: 10px;
+}
+.view_time_table table thead th 
+{
+    background-color: #4D90FE;
+    color: #FFFFFF;
+}
+.view_time_table table td, .view_time_table table th
+{
+    vertical-align: middle !important;
+}
+.view_time_table table td p 
+{
+    margin-bottom: 5px;
+}
+.view_time_table table td .subject 
+{
+    color: #ff7777;
+    font-weight: bold;
+}
+.view_time_table table td .teacher_name 
+{
+    color: #0000FF;
+    font-style: italic;
+}
+.view_time_table table td p:last-child 
+{
+    margin-bottom: 0px;
+}
+.view_time_table table .break_time th
+{
+    background-color: #aeffc0 !important;
+}
+.profile_view .basic_info .profile_info 
+{
+    padding-top: 5px;
+}
+.profile_view .basic_info label 
+{
+    min-width: 150px;
+    text-align: right;
+    font-weight: bold;
+    padding-right: 20px;
+}
+
+
+
+
+
+
+
+
+.loader_div 
+{
+    position: relative;
+}
+.loader_div .loader 
+{
+    background-color: rgba(255, 255, 255, 0.9);
+    background-image: url("/assets/img/loading.gif");
+    background-position: center center;
+    background-repeat: no-repeat;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.scrollbar
+{
+    margin-left: 30px;
+    float: left;
+    height: 250px;
+    width: 300px;
+    max-width: 300px;
+    overflow-y: auto;
+    margin-bottom: -20px;
+}
+        
+.pull-center
+{
+    text-align: center !important;
+}
+
+.student_Record {
+    background-color: rgba(249, 249, 249, 1);
+}
+
+.TextRight {
+            text-align: right !important;
+            padding-right: 5px !important;
+        }
+        
+.grandParent {
+    font-weight: bold;
+    display: block;
+}
+
+.Parent {
+    font-weight: bold;
+    font-style: italic;
+    padding-left: 20px;
+    display: block;
+}
+.child {
+    font-style: normal;
+    padding-left: 35px;
+    display: block;
+}
+
+small {
+    padding-left: 5px;
+}

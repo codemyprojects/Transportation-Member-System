@@ -1,0 +1,506 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/NTILU.Master" AutoEventWireup="true"
+    CodeBehind="Membership.aspx.cs" Inherits="NTILUnion.Membership.Membership" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+    <script type="text/javascript">
+
+    var checkFromValidation = false;
+
+    $(document).ready(function () {
+
+
+        $('#form').validate();
+
+
+        $("#<%=txtMemberName.ClientID %>").rules('add', { required: true, messages: { required: 'Applicant Name is required.'} });
+        $("#<%=txtFatherName.ClientID %>").rules('add', { required: true, messages: { required: 'Applicant Father Name is required.'} });
+        $("#<%=txtMotherName.ClientID %>").rules('add', { required: true, messages: { required: 'Applicant Mother Name is required.'} });
+        $("#<%=txtCitizenShipNo.ClientID %>").rules('add', { required: true, messages: { required: 'CitizenShip Number is required.'} });
+        $("#<%=txtLicenseNo.ClientID %>").rules('add', { required: true, messages: { required: 'License Number is required.'} });
+        $("#<%=txtMobile.ClientID %>").rules('add', { required: true,number: true, text: false, maxlength: 10, messages: { required: 'Mobile Number is required.'} });
+        $("#<%=txtTelephone1.ClientID %>").rules('add', { text: false, number: true, maxlength: 10, messages: { required: 'Telephone Number is required.'} });
+        $("#<%=txtEmail.ClientID %>").rules('add', { email: true, messages: { required: 'Enter valid Email.'} });
+        $("#<%=txtDateofBirth.ClientID %>").rules('add', { required: true, messages: { required: 'Date of Birth is required.'} });
+        $("#<%=txtValidDate.ClientID %>").rules('add', { required: true, messages: { required: 'Date of Validation is required.'} });
+        $("#<%=txtMembershipDate.ClientID %>").rules('add', { required: true, messages: { required: 'Date of Registration is required.'} });
+        checkFromValidation = function () {
+
+            var bool = true;
+
+
+            if ($('#<%=txtMemberName.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtFatherName.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtMotherName.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtCitizenShipNo.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtLicenseNo.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtMobile.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtTelephone1.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtEmail.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtDateofBirth.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtValidDate.ClientID %>').valid() == false) bool = false;
+            if ($('#<%=txtMembershipDate.ClientID %>').valid() == false) bool = false;
+            
+            if (!bool) $('#form').validate().focusInvalid();
+            return bool;
+        }
+
+    });
+
+    </script>
+
+   <script type="text/javascript">
+
+       $(document).ready(function () {
+           $("#<%=txtValidDate.ClientID %>").datepicker({ dateFormat: "yy-mm-dd", yearRange: '1970:2040', changeMonth: true, changeYear: true }).datepicker("setDate", new Date());
+           $("#<%=txtMembershipDate.ClientID %>").datepicker({ dateFormat: "yy-mm-dd", yearRange: '1970:2040', changeMonth: true, changeYear: true }).datepicker("setDate", new Date());
+
+           $("#<%=txtDateofBirth.ClientID %>").datepicker({ dateFormat: "yy-mm-dd", yearRange: '1970:2040', changeMonth: true, changeYear: true })
+
+
+           Sys.WebForms.PageRequestManager.getInstance().add_pageLoaded(function (evt, args)
+            {
+                $("#<%=txtValidDate.ClientID %>").datepicker({ dateFormat: "yy-mm-dd", yearRange: '1970:2040', changeMonth: true, changeYear: true }).val(), new Date()
+               $("#<%=txtMembershipDate.ClientID %>").datepicker({ dateFormat: "yy-mm-dd", yearRange: '1970:2040', changeMonth: true, changeYear: true }).val(), new Date()
+
+               $("#<%=txtDateofBirth.ClientID %>").datepicker({ dateFormat: "yy-mm-dd", yearRange: '1970:2040', changeMonth: true, changeYear: true })
+           });
+
+
+
+
+
+       });
+    </script>
+
+   
+</asp:Content>
+
+
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+    <div class="page-content">
+        <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        </button>
+                        <h4 class="modal-title">
+                            Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        Widget settings form goes here</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn blue">
+                            Save changes</button>
+                        <button type="button" class="btn default" data-dismiss="modal">
+                            Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="theme-panel hidden-xs hidden-sm">
+            <div class="toggler">
+            </div>
+            <div class="toggler-close">
+            </div>
+            <div class="theme-options">
+                <div class="theme-option theme-colors clearfix">
+                    <span>THEME COLOR</span>
+                    <ul>
+                        <li class="color-black current color-default" data-style="default"></li>
+                        <li class="color-blue" data-style="blue"></li>
+                        <li class="color-brown" data-style="brown"></li>
+                        <li class="color-purple" data-style="purple"></li>
+                        <li class="color-grey" data-style="grey"></li>
+                        <li class="color-white color-light" data-style="light"></li>
+                    </ul>
+                </div>
+                <div class="theme-option">
+                    <span>Layout</span>
+                    <select class="layout-option form-control input-small">
+                        <option value="fluid" selected="selected">Fluid</option>
+                        <option value="boxed">Boxed</option>
+                    </select>
+                </div>
+                <div class="theme-option">
+                    <span>Header</span>
+                    <select class="header-option form-control input-small">
+                        <option value="fixed" selected="selected">Fixed</option>
+                        <option value="default">Default</option>
+                    </select>
+                </div>
+                <div class="theme-option">
+                    <span>Sidebar</span>
+                    <select class="sidebar-option form-control input-small">
+                        <option value="fixed">Fixed</option>
+                        <option value="default" selected="selected">Default</option>
+                    </select>
+                </div>
+                <div class="theme-option">
+                    <span>Footer</span>
+                    <select class="footer-option form-control input-small">
+                        <option value="fixed">Fixed</option>
+                        <option value="default" selected="selected">Default</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="page-title">
+                    Membership</h3>
+                <ul class="page-breadcrumb breadcrumb">
+                    <li class="btn-group">
+                        <button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                            data-delay="1000" data-close-others="true">
+                            <span>Actions</span> <i class="fa fa-angle-down"></i>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                    <li><i class="fa fa-home"></i><a href="/Default.aspx">Home</a> <i class="fa fa-angle-right">
+                    </i><a href="MembershipMenu.aspx">Membership Menu</a> <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li><a href="#">New Membership</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col-md-12 ">
+                <div id="message" runat="server">
+                </div>
+                <div class="portlet box green ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-user"></i>Create Membership
+                        </div>
+                        <div class="tools">
+                            <a href="" class="collapse"></a><a href="#portlet-config" data-toggle="modal" class="config">
+                            </a><a href="" class="reload"></a><a href="" class="remove"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body form">
+                        <div class="form-horizontal">
+                            <div class="form-body">
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                       
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Name of Applicant :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                    <asp:TextBox ID="txtMemberName" runat="server" CssClass="form-control" placeholder="Enter Applicant Full Name"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtMemberName.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Zone :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                                                    <asp:DropDownList ID="DropAddressZoneID" CssClass="form-control dropdown" runat="server"
+                                                        AutoPostBack="True" 
+                                                        onselectedindexchanged="DropAddressZoneID_SelectedIndexChanged">
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                District :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-plane"></i></span>
+                                                    <asp:DropDownList ID="DropAddressDistrictID" CssClass="form-control dropdown" runat="server"
+                                                        AutoPostBack="True" 
+                                                        onselectedindexchanged="DropAddressDistrictID_SelectedIndexChanged">
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                VDC :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-flag"></i></span>
+                                                    <asp:DropDownList ID="DropAddressVDCID" CssClass="form-control dropdown" runat="server">
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                City :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-road"></i></span>
+                                                    <asp:TextBox ID="txtAddressCity" runat="server" CssClass="form-control" placeholder="Enter City"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtAddressCity.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Date of Birth :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    <asp:TextBox ID="txtDateofBirth" AutoComplete="Off" runat="server" CssClass="form-control"
+                                                        placeholder="Select Date of Birth"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtDateofBirth.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                         <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Current City :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                    <asp:TextBox ID="TMPCity" runat="server" CssClass="form-control" placeholder="Enter Current City"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtMemberName.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Gender :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                    <asp:DropDownList ID="DDLGender" CssClass="form-control dropdown" runat="server">
+                                                        <asp:ListItem>Male</asp:ListItem>
+                                                        <asp:ListItem>Female</asp:ListItem>
+                                                        <asp:ListItem>Other</asp:ListItem>
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Father Name :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                    <asp:TextBox ID="txtFatherName" runat="server" CssClass="form-control" placeholder="Enter Applicant Father Full Name"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtFatherName.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Mother Name :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                    <asp:TextBox ID="txtMotherName" runat="server" CssClass="form-control" placeholder="Enter Applicant Mother Full Name"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtMotherName.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                CitizenShip Number :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                                                    <asp:TextBox ID="txtCitizenShipNo" runat="server" CssClass="form-control" placeholder="Enter Citizenship Number"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtCitizenShipNo.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                License Number :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-sort-numeric-asc"></i></span>
+                                                    <asp:TextBox ID="txtLicenseNo" runat="server" CssClass="form-control" placeholder="Enter License Number"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtLicenseNo.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                License Type :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                    <asp:DropDownList ID="DropLicenseType" CssClass="form-control dropdown" runat="server">
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Membership Date :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    <asp:TextBox ID="txtMembershipDate" AutoComplete="Off" runat="server" CssClass="form-control"
+                                                        placeholder="Select date"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtMembershipDate.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Valid Membership Date :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    <asp:TextBox ID="txtValidDate" AutoComplete="Off" runat="server" CssClass="form-control"
+                                                        placeholder="Select date"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtValidDate.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Unit :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                    <asp:DropDownList ID="DropUnit" CssClass="form-control dropdown" runat="server" AutoPostBack="True">
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Post :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-star"></i></span>
+                                                    <asp:DropDownList ID="DropPost" CssClass="form-control dropdown" runat="server" AutoPostBack="True">
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Email :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                                    <asp:TextBox ID="txtEmail" runat="server" CssClass="form-control" placeholder="Enter Email"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtEmail.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Mobile Number :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+                                                    <asp:TextBox ID="txtMobile" runat="server" CssClass="form-control" placeholder="Enter Mobile Number"
+                                                        MaxLength="10"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtMobile.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Telephone Number :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-phone fa-lg"></i></span>
+                                                    <asp:TextBox ID="txtTelephone1" runat="server" CssClass="form-control" placeholder="Enter Telephone Number"
+                                                        MaxLength="10"></asp:TextBox>
+                                                </div>
+                                                <label for="<%= txtTelephone1.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Member Photo :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <asp:FileUpload ID="fpMemberPhoto" CssClass="fileupload" runat="server" onChange="return ValidateFile();" />
+                                                </div>
+                                                <label for="<%= fpMemberPhoto.ClientID%>" class="error" style="display: none">
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">
+                                                Education :</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-book"></i></span>
+                                                    <asp:DropDownList ID="DropEducation" CssClass="form-control dropdown" runat="server"
+                                                        AutoPostBack="True">
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                                <div class="form-actions fluid">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <asp:Button ID="btnSubmit" class="btn purple" OnClientClick="return checkFromValidation();"
+                                            runat="server" Text="Submit" onclick="btnSubmit_Click" />
+                                        <asp:Button ID="btnCancel" type="button" class="btn default" runat="server" Text="Back"
+                                            Width="86px" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div> 
+         <div class="portlet-body flip-scroll" id="listData" runat="server"> 
+    </div>
+</asp:Content>

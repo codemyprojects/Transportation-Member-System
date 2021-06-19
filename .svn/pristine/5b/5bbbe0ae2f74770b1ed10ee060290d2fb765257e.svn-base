@@ -1,0 +1,354 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using BLL;
+using System.IO;
+using System.Data;
+using System.Data.SqlClient;
+
+using System.Text;
+
+
+namespace NTILUnion.Membership
+{
+    public partial class Membership : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            
+            if (Session["userId"] == null || Session["username"] == null)
+            {
+                Response.Redirect("/Login.aspx");
+            }
+
+            if (!IsPostBack)
+            {
+
+                GetZone();
+                GetLicenseType();
+                GetPost();
+                GetUnit();
+                GetEducation();
+                
+            }
+
+        }
+       
+        private void Save()
+        {
+            
+                if (fpMemberPhoto.HasFile)
+                {
+                    string fileExt = (System.IO.Path.GetExtension(fpMemberPhoto.FileName)).ToLower();
+
+
+                    if (fileExt == ".jpeg" || fileExt == ".jpg")
+                    {
+                        if (fpMemberPhoto.PostedFile.ContentLength <= 1000000)
+                        {
+                            var fileName = txtMemberName.Text.Replace(" ", "_").Replace(".", "") + "_" + Guid.NewGuid().ToString().Trim();
+                            var photoupload = fileName + Path.GetExtension(fpMemberPhoto.FileName);
+                            var mem = new BLL.Membership
+
+                            {  
+                                Name = txtMemberName.Text.Trim(),
+                                Zone = DropAddressZoneID.SelectedValue,
+                                District = DropAddressDistrictID.SelectedValue,
+                                VDC = DropAddressVDCID.SelectedValue,
+                                City = txtAddressCity.Text.Trim(),
+                                DateofBirth = txtDateofBirth.Text.Trim(),
+                                CurrentCity =TMPCity.Text.Trim(),
+                                Gender = DDLGender.Text.Trim(),
+                                CitizenShipNO = txtCitizenShipNo.Text.Trim(),
+                                Education = DropEducation.SelectedValue,
+                                Email = txtEmail.Text.Trim(),
+                                FatherName = txtFatherName.Text.Trim(),
+                                LicenseNo = txtLicenseNo.Text.Trim(),
+                                LicenseType = DropLicenseType.SelectedValue,
+                                MembershipDate = txtMembershipDate.Text.Trim(),
+                                Mobile = txtMobile.Text.Trim(),
+                                MotherName = txtMotherName.Text.Trim(),
+                                Phone = txtTelephone1.Text.Trim(),
+                                Photo = photoupload,
+                                Post = DropPost.SelectedValue,
+                                Unit = DropUnit.SelectedValue,
+                                ValidDate = txtValidDate.Text.Trim(),
+                                  };
+
+                            var memManager = new MembershipManager();
+                            DataTable tbl = memManager.CRUD(mem, "i");
+                            if (tbl.Rows.Count > 0)
+                            {
+                                fpMemberPhoto.SaveAs(Server.MapPath("~/Membership/memberphoto/" + photoupload));
+
+                                message.InnerHtml = "<div class = 'note note-success'>" + "<div class='close-note'>x</div>" + tbl.Rows[0]["mes"].ToString();
+                                FieldClear();
+                            }
+
+                        }
+                        else 
+                        {
+                            Response.Write("<script> alert ('File size must be less than 1MB '); </script> ");
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("<script> alert ('File with extension jpge,JPG only supported '); </script> ");
+                    }
+                    
+            }
+        else
+        {
+            Response.Write("<script> alert ('Select Member Photo'); </script> ");
+        }
+        }
+     
+        private void GetMemberList()
+        {
+
+            var memManager = new MembershipManager();
+            var mem = new BLL.Membership();
+            DataTable tbl = memManager.CRUD(mem, "s");
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<div class='row'>");
+            sb.AppendLine("<div class='col-md-12'>");
+            sb.AppendLine("<div class='portlet box green'>");
+            sb.AppendLine("<div class='portlet-title'>");
+            sb.AppendLine("<div class='caption'><i class='fa fa-cogs'></i>Passengers Info</div>");
+            sb.AppendLine("<div class='tools'>");
+            sb.AppendLine("<a href='javascript:;' class='collapse'></a>");
+            sb.AppendLine("<a href='#portlet-config' data-toggle='modal' class='config'></a>");
+            sb.AppendLine("<a href='javascript:;' class='reload'></a>");
+            sb.AppendLine("<a href='javascript:;' class='remove'></a>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("</div>");
+            sb.AppendLine("<div class='portlet-body flip-scroll'>");
+            sb.AppendLine("<table class='table table-bordered table-striped table-condensed flip-content'>");
+            sb.AppendLine("<thead class='flip-content'>");
+            sb.AppendLine("<tr>");
+            sb.AppendLine("<th>S.N</th>");
+
+            sb.AppendLine("<th>Member Name </th>");
+            sb.AppendLine("<th>Zone </th>");
+            sb.AppendLine("<th>District </th>");
+            sb.AppendLine("<th>VDC</th>");
+            sb.AppendLine("<th>Address City</th>");
+            sb.AppendLine("<th>Date Of Birth</th>");
+            sb.AppendLine("<th>Citizenship NO </th>");
+            sb.AppendLine("<th>Education</th>");
+            sb.AppendLine("<th>Email</th>");
+            //sb.AppendLine("<th>Current City</th>");
+            //sb.AppendLine("<th>Gender</th>");
+            sb.AppendLine("<th>Father Name</th>");
+            sb.AppendLine("<th>License NO </th>");
+            sb.AppendLine("<th>MembershiP Date </th>");
+            sb.AppendLine("<th>Mobile </th>");
+            sb.AppendLine("<th>Mother Name </th>");
+            sb.AppendLine("<th>Phone</th>");
+            sb.AppendLine("<th>Post </th>");
+            sb.AppendLine("<th>Unit</th>");
+            sb.AppendLine("<th>Valit Date </th>");
+            sb.AppendLine("<th>Mem Photo</th>");
+
+            sb.AppendLine("<th Colspan=2 style='text-align:center'>Actions</th>");
+            sb.AppendLine("</tr>");
+            sb.AppendLine("</thead>");
+            sb.AppendLine("<tbody>");
+
+            int i = 0;
+            foreach (DataRow row in tbl.Rows)
+            {
+                string MembershipID = tbl.Rows[i]["MembershipID"].ToString();
+                string Name = tbl.Rows[i]["Name"].ToString();
+                string ZoneID = tbl.Rows[i]["ZoneID"].ToString();
+                string DistrictID = tbl.Rows[i]["DistrictID"].ToString();
+                string VDCID = tbl.Rows[i]["VDCID"].ToString();
+                string City = tbl.Rows[i]["City"].ToString();
+                string dateofbirth = tbl.Rows[i]["dateofbirth"].ToString();
+                string CitizenShipNO = tbl.Rows[i]["CitizenShipNO"].ToString();
+                string EducationID = tbl.Rows[i]["EducationID"].ToString();
+                string EducationName = tbl.Rows[i]["EducationName"].ToString();
+                string Email = tbl.Rows[i]["Email"].ToString();
+                //string CurrentCity = tbl.Rows[i]["CurrentCity"].ToString();
+                //string Gender = tbl.Rows[i]["Gender"].ToString();
+                string FatherName = tbl.Rows[i]["FatherName"].ToString();
+                string LicenseNO = tbl.Rows[i]["LicenseNO"].ToString();
+                string MembershipDate = tbl.Rows[i]["MembershipDate"].ToString();
+                string Mobile = tbl.Rows[i]["Mobile"].ToString();
+                string MotherName = tbl.Rows[i]["MotherName"].ToString();
+                string Phone = tbl.Rows[i]["Phone"].ToString();
+                string Post = tbl.Rows[i]["Post"].ToString();
+                string Unit = tbl.Rows[i]["Unit"].ToString();
+                string ValitDate = tbl.Rows[i]["ValitDate"].ToString();
+                string Photo = tbl.Rows[i]["Photo"].ToString();
+
+                sb.AppendLine("<tr><td class='numeric'>" + (i + 1).ToString() + "</td>");
+                sb.AppendLine("<td>" + Name + "</td>");
+                sb.AppendLine("<td>" + ZoneID + "</td>");
+                sb.AppendLine("<td>" + DistrictID + "</td>");
+                sb.AppendLine("<td>" + VDCID + "</td>");
+                sb.AppendLine("<td>" + City + "</td>");
+                sb.AppendLine("<td>" + dateofbirth + "</td>");
+                sb.AppendLine("<td>" + CitizenShipNO + "</td>");
+                sb.AppendLine("<td>" + EducationID + "</td>");
+                sb.AppendLine("<td>" + EducationName + "</td>");
+                sb.AppendLine("<td>" + Email + "</td>");
+                //sb.AppendLine("<td>" + CurrentCity + "</td>");
+                //sb.AppendLine("<td>" + Gender + "</td>");
+                sb.AppendLine("<td>" + FatherName + "</td>");
+                sb.AppendLine("<td>" + MembershipDate + "</td>");
+                sb.AppendLine("<td>" + Mobile + "</td>");
+                sb.AppendLine("<td>" + MotherName + "</td>");
+                sb.AppendLine("<td>" + Phone + "</td>");
+                sb.AppendLine("<td>" + Post + "</td>");
+                sb.AppendLine("<td>" + Unit + "</td>");
+                sb.AppendLine("<td>" + ValitDate + "</td>");
+                sb.AppendLine("<td>" + Photo + "</td>");
+                sb.AppendLine("<td style='text-align:center'><a href='?MembershipTypeID=" + MembershipID + "'> Edit </a></td>");
+                sb.AppendLine("<td style='text-align:center'><a href='?DeleteID=" + MembershipID + "'> Delete </a></td>");
+
+                sb.AppendLine("</tr>");
+
+                i += 1;
+                sb.AppendLine("</tbody>");
+                sb.AppendLine("</table>");
+                sb.AppendLine(" </div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
+                listData.InnerHtml = sb.ToString();
+
+            }
+
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void GetZone()
+        {
+            
+            var zone = new BLL.Zone();
+            var zoneManager = new BLL.ZoneManager();
+            DataTable tbl = zoneManager.CRUD(zone, "s");
+            DropAddressZoneID.DataSource = tbl;
+            if (tbl.Rows.Count > 0)
+            {
+            DropAddressZoneID.DataValueField = "ZoneID";
+            DropAddressZoneID.DataTextField = "Zone";
+            DropAddressZoneID.DataBind();
+                }
+        
+        else
+            {
+                DropAddressZoneID.Items.Insert(0, new ListItem("-- select  Zone -- ", ""));
+
+            }
+        }
+
+        private void GetLicenseType()
+        {
+            var license = new BLL.License();
+            var LicenseManager = new BLL.LicenseManager();
+            DataTable tbl = LicenseManager.CRUD(license, "s");
+            DropLicenseType.DataSource = tbl;
+            DropLicenseType.DataValueField = "LicenseID";
+            DropLicenseType.DataTextField = "License";
+            DropLicenseType.DataBind();
+        }
+
+        private void GetUnit()
+        {
+            var Unit = new BLL.Unit();
+            var UnitManager = new BLL.UnitManager();
+            DataTable tbl = UnitManager.CRUD(Unit, "s");
+            DropUnit.DataSource = tbl;
+            DropUnit.DataValueField = "UnitID";
+            DropUnit.DataTextField = "UnitName";
+            DropUnit.DataBind();
+
+        }
+
+        private void GetPost()
+        {
+            var Post = new BLL.Post();
+            var PostManager = new BLL.PostManager();
+            DataTable tbl = PostManager.CRUD(Post, "s");
+            DropPost.DataSource = tbl;
+            DropPost.DataValueField = "PostID";
+            DropPost.DataTextField = "PostName";
+            DropPost.DataBind();
+
+
+        }
+
+        private void GetEducation()
+        {
+            var Edu = new BLL.Education();
+            var EduManager = new BLL.EducationManager();
+            DataTable tbl = EduManager.CRUD(Edu, "s");
+            DropEducation.DataSource = tbl;
+            DropEducation.DataValueField = "EducationID";
+            DropEducation.DataTextField = "EducationName";
+            DropEducation.DataBind();
+        }
+        
+        private void FieldClear()
+        {
+            txtAddressCity.Text = string.Empty;
+            txtCitizenShipNo.Text = string.Empty;
+            txtDateofBirth.Text = string.Empty;
+            txtEmail.Text = string.Empty;
+            txtFatherName.Text = string.Empty;
+            txtLicenseNo.Text = string.Empty;
+            txtMemberName.Text = string.Empty;
+            txtMembershipDate.Text = string.Empty;
+            txtMobile.Text = string.Empty;
+            txtMotherName.Text = string.Empty;
+            txtTelephone1.Text = string.Empty;
+            txtValidDate.Text = string.Empty;
+        }
+
+        protected void DropAddressDistrictID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetVdc1(DropAddressDistrictID.SelectedValue.ToString(), DropAddressZoneID.SelectedValue.ToString());
+        }
+
+        protected void DropAddressZoneID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetDistrict( DropAddressZoneID.SelectedValue.ToString());
+
+        }
+
+        private void GetVdc1(string DistrictID, string Zonedid)
+        {
+            var zoneid = new BLL.Zone();
+            var VdC = new BLL.VDC();
+            var VDCManager = new BLL.VDCManager();
+            DataTable tbl = VDCManager.GetByVdcId(DistrictID, Zonedid);
+                DropAddressVDCID.DataSource = tbl;
+                DropAddressVDCID.DataValueField = "VdcID";
+                DropAddressVDCID.DataTextField = "VDC";
+                DropAddressVDCID.DataBind();
+            }
+
+        private void GetDistrict(string zoneId)
+        {
+            var district = new BLL.District();
+            var districtManager = new DistrictManager();
+            DataTable tbl = districtManager.GetByZoneId(zoneId);
+                DropAddressDistrictID.DataSource = tbl;
+                DropAddressDistrictID.DataValueField = "DistrictID";
+                DropAddressDistrictID.DataTextField = "District";
+                DropAddressDistrictID.DataBind();
+                
+            }
+
+        }
+    }

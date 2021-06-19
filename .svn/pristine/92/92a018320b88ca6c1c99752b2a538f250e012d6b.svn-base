@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace BLL
+{
+    public class Membership
+    {
+        public int? MembershipID { get; set; }
+        public string Name { get; set; }
+        public string Zone { get; set; }
+        public string District { get; set; }
+        public string VDC { get; set; }
+        public string City { get; set; }
+        public string DateofBirth { get; set; }
+        public string FatherName { get; set; }
+        public string MotherName { get; set; }
+        public string CitizenShipNO { get; set; }
+        public string LicenseNo { get; set; }
+        public string LicenseType { get; set; }
+        
+        public string MembershipDate { get; set; }
+        
+        public string DateFrom { get; set; }
+        public string DateTo { get; set; }
+        
+        public string ValidDate { get; set; }
+        public string Unit { get; set; }
+        public string Post { get; set; }
+        public string Email { get; set; }
+        public string Mobile { get; set; }
+        public string Phone { get; set; }
+        public string Photo { get; set; }
+        public string Education { get; set; }
+        public string RenewDate { get; set; }
+        public decimal  Amount { get; set; }
+        public string Gender { get; set; }
+        public string CurrentCity { get; set; }
+
+        
+    }
+  }

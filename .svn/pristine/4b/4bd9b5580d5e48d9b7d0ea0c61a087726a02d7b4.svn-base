@@ -1,0 +1,99 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using BLL;
+using System.Data;
+using System.IO;
+using System.Text;
+
+
+namespace NTILUnion.Membership
+{
+    public partial class Detail : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["userId"] == null || Session["username"] == null)
+            {
+                Response.Redirect("/Login.aspx");
+            }
+
+
+            GetMemberList();
+
+        }
+
+        private void GetMemberList()
+        {
+
+            var memManager = new MembershipManager();
+            var mem = new BLL.Membership();
+            mem.MembershipID = Convert.ToInt32(Request.QueryString["MembershipID"].ToString());
+            DataTable tbl = memManager.CRUD(mem, "s");
+
+            StringBuilder sb = new StringBuilder();
+
+            if (tbl.Rows.Count > 0)
+            {
+                if (!File.Exists(Server.MapPath("~/Membership/memberphoto/" + tbl.Rows[0]["Photo"].ToString())))
+                {
+                    MemberPhoto.InnerHtml = "<img src='/assets/img/avatar.png' style='width:160px; height:175px'/>";
+
+                }
+                else
+                {
+                    MemberPhoto.InnerHtml = "<img src='/Membership/memberphoto/"  + tbl.Rows[0]["Photo"].ToString() + "' style='width:160px; height:175px'/>";
+                }
+
+
+
+
+                sb.AppendLine("<div class='row'>");
+                sb.AppendLine("<div class='col-md-12'>");
+                sb.AppendLine("<div class='portlet box green'>");
+                sb.AppendLine("<div class='portlet-title'>");
+                sb.AppendLine("<div class='caption'><i class='fa fa-cogs'></i>Search Result</div>");
+                sb.AppendLine("<div class='tools'>");
+                sb.AppendLine("<a href='javascript:;' class='collapse'></a>");
+                sb.AppendLine("<a href='#portlet-config' data-toggle='modal' class='config'></a>");
+                sb.AppendLine("<a href='javascript:;' class='reload'></a>");
+                sb.AppendLine("<a href='javascript:;' class='remove'></a>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("<div class='portlet-body flip-scroll'>");
+                sb.AppendLine("<table class='table table-bordered table-striped table-condensed flip-content'>");
+                sb.AppendLine("<tbody>");
+
+
+                int i = 0;
+                for (i = 0; i <= tbl.Columns.Count - 2; i++)
+                {
+
+                    string colName = tbl.Columns[i].ColumnName.ToString();
+                    string colVal = tbl.Rows[0][i].ToString();
+
+
+
+                    sb.AppendLine("<tr>");
+                    sb.AppendLine("<td>" + colName + "</td>");
+                    sb.AppendLine("<td>" + colVal + "</td>");
+                    sb.Append("</tr>");
+
+                }
+                sb.AppendLine("</tbody></table>");
+                sb.AppendLine(" </div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
+                listData.InnerHtml = sb.ToString();
+
+            }
+        }
+
+    }
+}
+
+

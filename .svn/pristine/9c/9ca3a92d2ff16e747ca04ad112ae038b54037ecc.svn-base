@@ -1,0 +1,112 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+using BLL;
+using System.IO;
+
+namespace NTILUnion.Membership
+{
+    public partial class DocumentViewer : System.Web.UI.Page
+    {
+        public string imageViewer = "";
+        public string download = "";
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+            ViewFiles("78");
+            if (!string.IsNullOrEmpty(Request.QueryString["MembershipID"]))
+            {
+                imageViewer = Request.QueryString["id"];
+                ViewFiles(imageViewer);
+            }
+        }
+
+
+
+
+        public void ViewFiles(string ID)
+        {
+
+
+            StringBuilder sb = new StringBuilder();
+
+            if (Directory.Exists(Server.MapPath("~\\DocFiles\\" + ID + "\\")))
+            {
+                sb.AppendLine("<ul>");
+                ImageViewwer.InnerHtml = sb.ToString();
+                string[] fileEntries = Directory.GetFiles(Server.MapPath("~\\DocFiles\\" + ID + "\\"));
+                foreach (string fileName in fileEntries)
+                {
+                    sb.AppendLine("<li>");
+                    sb.AppendLine("<figure class='img-wrapper fade'><a class='fancybox' href=/DocFiles/" + ID + "/" + Path.GetFileName(fileName) + ">" + "<img  src='/DocFiles/" + ID + "/" + Path.GetFileName(fileName) + "' width='300' height='240'><h4>City at Night</h4></a></figure>");
+                    sb.AppendLine("</li>");
+                }
+                sb.AppendLine("</ul>");
+                ImageViewwer.InnerHtml = sb.ToString();
+
+
+
+
+
+
+            }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+        //    ViewFiles("78");
+        //    if (!string.IsNullOrEmpty(Request.QueryString["MembershipID"]))
+        //    {
+        //        Response.ContentType = "image/jpg";
+
+        //    }
+            
+        //    filedownload(ID);
+        }
+
+        public void filedownload(string ID)
+        {
+            ViewFiles("78");
+            string filePath = Server.MapPath("~\\DocFiles\\" + ID + "\\");
+            Response.ContentType = "image/jpg";
+            Response.AddHeader("Content-Disposition", "attachment;filename=\"" + filePath + "\"");
+            Response.TransmitFile(Server.MapPath(filePath));
+            Response.End();
+        }
+
+    }
+
+
+
+    //    ViewFiles("78");
+    //    if (!string.IsNullOrEmpty(Request.QueryString["MembershipID"]))
+    //    {
+    //        download = Request.QueryString["id"];
+    //        downloadfile(download);
+    //    }
+    //}
+
+    //public void downloadfile( string ID)
+    //{
+    //    string filename = Server.MapPath("DocFiles\\" + ID + "\\");
+    //    Response.ContentType = "image/JPEG";
+    //    Response.AddHeader("Content-Disposition", "attachment; filename=" + filename + "");
+
+    //    Response.TransmitFile("78");
+    //    Response.End();
+    //}
+
+
+
+
+}
+
+
+

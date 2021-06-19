@@ -1,0 +1,182 @@
+﻿      .Receiptcontainer {
+        font-family: sans-serif;
+        position: absolute;
+        width: 780px;
+        height: 336.37px;
+        background-image: none;
+        background-color: rgb(221, 129, 131);
+        letter-spacing: 4px;
+        text-align: center;
+        left: 23px;
+        top: 28px;
+      }
+      .CollegeInfo {
+        font-family: sans-serif;
+        font-size: 14px;
+        position: absolute;
+        width: 780px;
+        height: 120px;
+        left: 24px;
+        top: 40px;
+        letter-spacing: 2px;
+        text-align: center;
+        margin-left: -35px;
+      }
+      .CollegeName {
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .CollegeDetails {
+        font-size: 12px;
+      }
+      .Receipt {
+        position: absolute;
+        width: 53px;
+        height: 336px;
+        left: 24px;
+        top: 40px;
+      }
+      .Vertical-Text {
+        font-family: sans-serif;
+        font-size: 50pt;
+        font-weight: bold;
+        -webkit-transform: rotate(-90deg);
+        position: absolute;
+        top: 120px;
+        left: -115px;
+      }
+      .ReceiptRow {
+        position: absolute;
+        width: 710px;
+        height: 30px;
+        line-height: 30px;
+        clear: both;
+        top: 165px;
+        left: 87px;
+      }
+      .StaticContent {
+        float: left;
+        padding: 0px 5px;
+      }
+      .DynamicContent {
+        background-color: rgb(255, 255, 255);
+        float: left;
+        border: 1px solid;
+      }
+      .gwd-div-fkpp {
+        top: 201px;
+      }
+      .gwd-div-yymb {
+        width: 710px;
+        top: 236px;
+      }
+      .gwd-span-wfnq {
+        width: 107px;
+      }
+      .PreviousBalance {
+        position: absolute;
+        width: 133px;
+        height: 33px;
+        left: 89px;
+        top: 286px;
+      }
+      .Payment {
+        position: absolute;
+        width: 110px;
+        left: 86px;
+        top: 278px;
+        border: 1px solid rgb(0, 0, 0);
+        line-height: 30px;
+        padding: 0px 5px;
+      }
+      .gwd-div-nhlb {
+        left: 223px;
+        top: 278px;
+      }
+      .gwd-div-hzw9 {
+        left: 360px;
+        top: 278px;
+      }
+      .Amounts {
+        left: 360px;
+        top: 309px;
+        background-color: rgb(255, 255, 255);
+      }
+      .gwd-div-7vua {
+        width: 110px;
+        left: 223px;
+        top: 309px;
+      }
+      .gwd-div-p91v {
+        left: 86px;
+        top: 309px;
+      }
+      .Sign {
+        position: absolute;
+        width: 151px;
+        height: 40px;
+        left: 571px;
+        top: 328px;
+      }
+      .gwd-div-9lj4 {
+        text-align: center;
+      }
+      .gwd-div-zq4l {
+        left: 336px;
+        top: 309px;
+      }
+      .gwd-div-bfxu {
+        left: 336px;
+        top: 278px;
+      }
+      .gwd-div-2jv6 {
+        left: 211px;
+        top: 278px;
+      }
+      .gwd-div-p5k9 {
+        left: 211px;
+        top: 309px;
+      }
+      .ReceiptInfo {
+        position: absolute;
+        width: 182px;
+        height: 104px;
+        left: 614px;
+        top: 48px;
+      }
+      br {
+        height: 25px;
+      }
+      .ReceiptNo {
+        position: absolute;
+        width: 100px;
+        height: 31px;
+        text-align: left;
+        color: rgb(0, 0, 0);
+        background-color: rgb(255, 255, 255);
+        left: 695px;
+        top: 42px;
+      }
+      .gwd-div-n9oz {
+        width: 100px;
+        left: 695px;
+        top: 80px;
+      }
+      .gwd-div-y07s {
+        width: 100px;
+        left: 695px;
+        top: 120px;
+      }
+      .gwd-div-sttg {
+        height: 30px;
+        width: 110px;
+        left: 461px;
+        top: 278px;
+      }
+      .gwd-div-7uzr {
+        height: 30px;
+        width: 110px;
+        left: 461px;
+        top: 309px;
+        color: rgb(0, 0, 0);
+      }

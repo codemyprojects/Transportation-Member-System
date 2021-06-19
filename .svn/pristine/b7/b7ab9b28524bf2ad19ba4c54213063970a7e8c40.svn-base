@@ -1,0 +1,111 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using BLL;
+using System.IO;
+using System.Data;
+using System.Data.SqlClient;
+
+using System.Text;
+
+
+namespace NTILUnion.SetUp
+{
+    public partial class Vdc : System.Web.UI.Page
+    {
+        public int zoneID;
+        public int DistricID;
+        
+
+
+
+
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            GetZone();
+
+        }
+
+        private void GetZone()
+        {
+
+            var zone = new BLL.Zone();
+            var zoneManager = new BLL.ZoneManager();
+            DataTable tbl = zoneManager.CRUD(zone, "s");
+            DropAddressZoneID.DataSource = tbl;
+            if (tbl.Rows.Count > 0)
+            {
+                DropAddressZoneID.DataValueField = "ZoneID";
+                DropAddressZoneID.DataTextField = "Zone";
+                DropAddressZoneID.DataBind();
+            }
+
+            else
+            {
+                DropAddressZoneID.Items.Insert(0, new ListItem("-- select  Zone -- ", ""));
+
+            }
+        }
+       
+        private void GetDistrict(string zoneId)
+        {
+            var district = new BLL.District();
+            var districtManager = new DistrictManager();
+            DataTable tbl = districtManager.GetByZoneId(zoneId);
+            DropAddressDistrictID.DataSource = tbl;
+            DropAddressDistrictID.DataValueField = "DistrictID";
+            DropAddressDistrictID.DataTextField = "District";
+            DropAddressDistrictID.DataBind();
+
+        }
+
+        protected void DropAddressZoneID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GetDistrict(DropAddressZoneID.SelectedValue.ToString());
+            if (DropAddressZoneID.SelectedValue != null)
+            {
+                zoneID = Convert.ToInt32(DropAddressZoneID.SelectedValue.Trim());
+
+            }
+            
+        }
+
+        protected void DropAddressDistrictID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (DropAddressDistrictID.SelectedValue!=null)
+            {
+                DistricID = Convert.ToInt32(DropAddressDistrictID.SelectedValue.Trim());
+            }
+           
+        }
+
+        public void Save()
+        {
+
+            var mem = new BLL.VDC
+            {
+                ZoneID = Convert.ToInt32(DropAddressZoneID.SelectedValue.ToString()),
+                DistrictID = Convert.ToInt32(DropAddressDistrictID.SelectedValue.ToString()),
+                VDCName = txtVDC.Text.Trim(),
+            };
+            var vdcManager = new VDCManager();
+            DataTable tbl = vdcManager.CRUD1(mem,"i");
+        }
+
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            Save();
+
+        }
+
+
+
+
+
+    }
+}

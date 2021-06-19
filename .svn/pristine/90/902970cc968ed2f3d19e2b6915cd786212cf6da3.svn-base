@@ -1,0 +1,146 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+using BLL;
+using System.IO;
+
+namespace NTILUnion.Membership
+{
+    public partial class MemberVerification : System.Web.UI.Page
+    {
+
+        string dateTo = "";
+        string dateFrom = "";
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                
+                if (!string.IsNullOrWhiteSpace(Request.QueryString["MembershipID"]))
+                {
+                    string MemId = Request.QueryString["MembershipID"];
+                    Isvalid("v", MemId, "True");
+                  SearchMember("s", Request.QueryString["dateFrom"], Request.QueryString["dateTo"]);
+                  dateTo = Request.QueryString["dateTo"];
+                  dateFrom = Request.QueryString["dateFrom"];
+                }
+            }
+
+        }
+
+
+        private void SearchMember(string flag, string DateFrom, string DateTo)
+        {
+            
+            listData.InnerHtml = "";
+
+            var memberVerification = new MembershipManager();
+            var mem = new BLL.Membership();
+            DataTable tbl = memberVerification.SerchVerification(flag, DateFrom, DateTo);
+            if (tbl.Rows.Count > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("<div class='row'>");
+                sb.AppendLine("<div class='col-md-12'>");
+                sb.AppendLine("<div class='portlet box green'>");
+                sb.AppendLine("<div class='portlet-title'>");
+                sb.AppendLine("<div class='caption'><i class='fa fa-cogs'></i>Search Result</div>");
+                sb.AppendLine("<div class='tools'>");
+                sb.AppendLine("<a href='javascript:;' class='collapse'></a>");
+                sb.AppendLine("<a href='#portlet-config' data-toggle='modal' class='config'></a>");
+                sb.AppendLine("<a href='javascript:;' class='reload'></a>");
+                sb.AppendLine("<a href='javascript:;' class='remove'></a>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("<div class='portlet-body flip-scroll'>");
+                sb.AppendLine("<table class='table table-bordered table-striped table-condensed flip-content'>");
+                sb.AppendLine("<thead class='flip-content'>");
+                sb.AppendLine("<tr>");
+                sb.AppendLine("<th>S.N</th>");
+                sb.AppendLine("<th> MembershipID </th>");
+                sb.AppendLine("<th>Membership Name </th>");
+                sb.AppendLine("<th>Address</th>");
+                sb.AppendLine("<th>Mobile </th>");
+                sb.AppendLine("</tr>");
+                sb.AppendLine("</thead>");
+                sb.AppendLine("<tbody>");
+
+                
+                int i = 0;
+                foreach (DataRow row in tbl.Rows)
+                {
+                    string MembershipID = tbl.Rows[i]["MembershipID"].ToString();
+                    string Name = tbl.Rows[i]["Name"].ToString();
+                    string MembershipDate = tbl.Rows[i]["MembershipDate"].ToString();
+                    string Address = tbl.Rows[i]["City"].ToString();
+                    string Mobile = tbl.Rows[i]["Mobile"].ToString();
+                    
+
+
+                    sb.AppendLine("<tr><td class='numeric'>" + (i + 1).ToString() + "</td>");
+                    sb.AppendLine("<td><a href='/Membership/Detail.aspx?MembershipID=" + MembershipID + "'> " + Name + "</td>");
+                    sb.AppendLine("<td>" + Name + "</td>");
+                    sb.AppendLine("<td>" + Address + "</td>");
+                    sb.AppendLine("<td>" + Mobile + "</td>");
+
+                    sb.AppendLine("<td style='text-align:center'><a href='/Membership/MemberVerification.aspx?MembershipID=" + MembershipID + "&dateFrom=" + dateFrom + "&dateTo=" + DateTo + "'> Verified </a></td>");
+                    sb.AppendLine("<td style='text-align:center'><a href='/Membership/DocumentViewer.aspx?MembershipID=" + MembershipID + "&dateFrom=" + dateFrom + "&dateTo=" + DateTo + "'> DocViewer </a></td>");
+
+                    //sb.AppendLine("<td style='text-align:center'><a href='/Membership/RenewMembership.aspx?MembershipID=" + MembershipID + "'> Renew </a></td>");
+                    //sb.AppendLine("<td style='text-align:center'><a href='/Membership/Detail.aspx?MembershipID=" + MembershipID + "'> Details </a></td>");
+
+                    sb.AppendLine("</tr>");
+
+                    i += 1;
+                }
+
+                sb.AppendLine("</tbody>");
+                sb.AppendLine("</table>");
+                sb.AppendLine(" </div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
+                sb.AppendLine("</div>");
+                listData.InnerHtml = sb.ToString();
+            }
+            else
+            {
+                listData.InnerHtml = "No record Found" + "<div class='close-note'></div>";
+            }
+
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            SearchMember("s", txtDateFrom.Text, txt_dateTo.Text);
+
+        }
+
+
+        private void memvalid()
+        {
+
+
+            var mem = new BLL.Membership
+            {
+                
+            };
+        }
+        
+        
+        private void Isvalid(string flag, string MemebershipID, string IsVerified)
+        {
+            var memberVarified = new BLL.MembershipManager();
+            var mem = new BLL.Membership();
+            DataTable tbl = memberVarified.IsVarified(flag, MemebershipID, IsVerified);
+            
+                     
+        }
+
+    }
+}

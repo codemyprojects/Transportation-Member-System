@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+using DAO;
+
+namespace BLL
+{
+   public  class LicenseManager :IMasterActions <License>
+    {
+        public DataTable CRUD(License license, string flag)
+        {
+            
+
+            var cmd = DataAccess.CreateCommand();
+            cmd.CommandText = "[Setup].[usp_License]";
+            cmd.Parameters.AddWithValue("@LicenseID", license.LicenseID);
+            cmd.Parameters.AddWithValue("@License", license.Licensename);
+            cmd.Parameters.AddWithValue("@Description", license.Description);
+            cmd.Parameters.AddWithValue("@flag", flag);
+            return DataAccess.ExecuteReaderCommand(cmd);
+        }
+
+
+
+
+        public DataTable SelectById(string LicenseID)
+        {
+            DataTable tbl = new DataTable();
+
+            return tbl;
+        }
+
+       
+
+    }
+}

@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+
+namespace NTILUnion
+{
+    public partial class Login : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+           
+        }
+
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            if ((!string.IsNullOrEmpty(txtUserName.Text.Trim())) &&  (! string.IsNullOrEmpty(txtPassword.Text.Trim())))
+            {
+                DataTable tbl = BLL.DaoManager.LoginUser(txtUserName.Text, txtPassword.Text);
+
+                if (tbl.Rows.Count > 0)
+                {
+                    if (tbl.Rows[0]["errorcode"].ToString() == "1")
+                    {
+                        Session["userId"] = tbl.Rows[0]["UserID"].ToString();
+                        Session["username"] = tbl.Rows[0]["mes"].ToString();
+                        Response.Redirect("/Default.aspx");
+                    }
+                    else
+                    {
+                        msg.InnerHtml = "<div class='alert alert-danger'> <button class='close' data-close='alert'></button><span>" + tbl.Rows[0]["mes"].ToString() + "</span> </div>";
+                        
+                        //Response.Write("<script>alert('" + tbl.Rows[0]["mes"].ToString() + "');</script>");
+                    }
+                }
+            }
+            else
+            {
+                msg.InnerHtml = "<div class='alert alert-danger'> <button class='close' data-close='alert'></button><span> Enter any username and password.</span> </div>";
+            }
+        }
+    }
+}
